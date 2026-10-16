@@ -1,0 +1,14 @@
+{
+  "version": "1.6.50",
+  "build_tools": [
+    "cmake",
+    "ninja"
+  ],
+  "dependencies": [
+  ],
+  "files": [
+    "build.py"
+  ],
+  "sources": [{"version": "1.6.50", "link": "http://prdownloads.sourceforge.net/libpng/libpng-1.6.50.tar.xz?download"}],
+  "build_script": "build.py"
+}

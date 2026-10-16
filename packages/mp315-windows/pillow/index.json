@@ -1,0 +1,30 @@
+{
+  "tests": ["test.py"],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [
+        "patch"
+      ],
+      "dependencies": [
+        "jpeg",
+        "freetype",
+        "harfbuzz",
+        "raqm"
+      ],
+      "files": [
+        "build.py",
+        "pillow-static-patch.patch"
+      ],
+      "build_requires": [
+        "setuptools",
+        "setuptools_scm",
+        "build",
+        "pybind11==3.0.4"
+      ],
+      "build_script": "build.py"
+    }
+  ]
+}

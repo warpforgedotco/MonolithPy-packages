@@ -1,0 +1,71 @@
+diff --git a/statsmodels/tools/docstring.py b/statsmodels/tools/docstring.py
+index 99f0b8b..122131b 100644
+--- a/statsmodels/tools/docstring.py
++++ b/statsmodels/tools/docstring.py
+@@ -184,7 +184,6 @@ class NumpyDocString(Mapping):
+             self._parse()
+         except ParseError as e:
+             e.docstring = orig_docstring
+-            raise
+ 
+     def __getitem__(self, key):
+         return self._parsed_data[key]
+@@ -415,12 +414,6 @@ class NumpyDocString(Mapping):
+         has_returns = "Returns" in section_names
+         has_yields = "Yields" in section_names
+         # We could do more tests, but we are not. Arbitrarily.
+-        if has_returns and has_yields:
+-            msg = "Docstring contains both a Returns and Yields section."
+-            raise ValueError(msg)
+-        if not has_yields and "Receives" in section_names:
+-            msg = "Docstring contains a Receives section but not Yields."
+-            raise ValueError(msg)
+ 
+         for section, content in sections:
+             section_name = section
+@@ -462,7 +455,6 @@ class NumpyDocString(Mapping):
+                 filename = None
+             msg = msg + (f" in the docstring of {self._obj} in {filename}.")
+ 
+-        raise ValueError(msg)
+ 
+     # string conversion routines
+ 
+@@ -626,7 +618,7 @@ class Docstring:
+             param for param in self._ds["Parameters"] if param.name not in parameters
+         ]
+         if len(repl) + len(parameters) != len(self._ds["Parameters"]):
+-            raise ValueError("One or more parameters were not found.")
++            pass
+         self._ds["Parameters"] = repl
+ 
+     def insert_parameters(self, after, parameters):
+@@ -656,7 +648,7 @@ class Docstring:
+                     loc = i + 1
+                     break
+             if loc < 0:
+-                raise ValueError
++                pass
+             params = self._ds["Parameters"][:loc] + parameters
+             params += self._ds["Parameters"][loc:]
+             self._ds["Parameters"] = params
+@@ -678,7 +670,7 @@ class Docstring:
+             return
+         block_name = " ".join(word.capitalize() for word in block_name.split(" "))
+         if block_name not in self._ds:
+-            raise ValueError(f"{block_name} is not a block in the docstring")
++            pass
+         if not isinstance(block, list) and isinstance(self._ds[block_name], list):
+             block = [block]
+         self._ds[block_name] = block
+@@ -708,9 +700,7 @@ class Docstring:
+         ds_params = {param.name: param for param in self._ds["Parameters"]}
+         missing = set(parameters).difference(ds_params.keys())
+         if missing:
+-            raise ValueError(
+-                "{} were not found in the docstring".format(",".join(missing))
+-            )
++            parameters = [param for param in parameters if param not in missing]
+         final = [ds_params[param] for param in parameters]
+         ds = copy.deepcopy(self._ds)
+         for key in ds:

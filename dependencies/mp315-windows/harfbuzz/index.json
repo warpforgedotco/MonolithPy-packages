@@ -1,0 +1,21 @@
+{
+  "version": "14.2.1",
+  "build_tools": [
+    "cmake",
+    "ninja"
+  ],
+  "dependencies": [
+    "zlib",
+    "graphite2"
+  ],
+  "files": [
+    "build.py"
+  ],
+  "sources": [
+    {
+      "version": "14.2.1",
+      "link": "https://github.com/harfbuzz/harfbuzz/archive/refs/tags/14.2.1.zip"
+    }
+  ],
+  "build_script": "build.py"
+}

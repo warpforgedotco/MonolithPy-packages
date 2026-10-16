@@ -1,0 +1,25 @@
+{
+  "tests": ["test.py"],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [],
+      "dependencies": [
+        "jpeg",
+        "raqm"
+      ],
+      "files": [
+        "build.py"
+      ],
+      "build_requires": [
+        "setuptools",
+        "setuptools_scm",
+        "build",
+        "pybind11==3.0.4"
+      ],
+      "build_script": "build.py"
+    }
+  ]
+}
