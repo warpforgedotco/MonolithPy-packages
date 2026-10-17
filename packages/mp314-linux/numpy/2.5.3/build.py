@@ -38,7 +38,11 @@ def run(wheel_directory):
     __mp__.run(sys.executable, "-m", "build", "-w", "--no-isolation", "-o", ".",
                "-Csetup-args=-Dblas=openblas", "-Csetup-args=-Dlapack=openblas",
                # Fail instead of falling back to numpy's unoptimized routines.
-               "-Csetup-args=-Dallow-noblas=false", env=env)
+               "-Csetup-args=-Dallow-noblas=false",
+               # SVML, numpy's AVX-512 math in assembly, doesn't make it into the
+               # static build, and the interpreter relink can't resolve its
+               # __svml_* symbols. numpy computes those functions without it.
+               "-Csetup-args=-Ddisable-svml=true", env=env)
 
     wheel_location = glob.glob("numpy-*.whl")[0]
 
