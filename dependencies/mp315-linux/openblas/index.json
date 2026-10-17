@@ -1,0 +1,17 @@
+{
+  "version": "0.3.34",
+  "build_tools": [
+    "cmake"
+  ],
+  "dependencies": [],
+  "files": [
+    "build.py"
+  ],
+  "sources": [
+    {
+      "version": "0.3.34",
+      "link": "https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.34.tar.gz"
+    }
+  ],
+  "build_script": "build.py"
+}

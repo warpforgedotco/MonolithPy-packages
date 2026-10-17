@@ -1,0 +1,64 @@
+import __mp__
+import glob
+import shutil
+import sys
+import os
+import sysconfig
+import setuptools.build_meta
+from tempfile import TemporaryDirectory
+from wheel.wheelfile import WheelFile
+
+
+def run(wheel_directory):
+    build_dir = os.getcwd()
+
+    with open(os.path.join("numpy", "_core", "src", "multiarray", "dtypemeta.h"), "r") as f:
+        api_table = f.read() + os.linesep
+
+    with open(os.path.join("numpy", "_core", "src", "multiarray", "abstractdtypes.h"), "r") as f:
+        api_table += f.read()
+
+    with open(os.path.join("numpy", "_core", "include", "numpy", "_public_dtype_api_table.h"), "w") as f:
+        f.write(api_table)
+
+    __mp__.run_with_output("patch", "-p1", "-i",
+                              os.path.join(os.path.dirname(__file__), "numpy-static-patch.patch"))
+
+    env = os.environ.copy()
+    env["PATH"] = (os.path.dirname(__mp__.find_build_tool_exe("cmake", "cmake")) + os.pathsep +
+                   os.path.dirname(__mp__.find_build_tool_exe("ninja", "ninja")) + os.pathsep + env.get("PATH", ""))
+    # numpy's meson finds OpenBLAS by linking against it; the compiler searches
+    # LIBRARY_PATH and CPATH. Its CMake lookup rejects numpy's "cblas"
+    # module, and pkg-config is disabled below. OpenBLAS's LAPACK is C, so
+    # unlike on macOS there is no Fortran runtime to link.
+    env["LIBRARY_PATH"] = os.pathsep.join(filter(None, [__mp__.find_dep_libs("openblas"), env.get("LIBRARY_PATH")]))
+    env["CPATH"] = os.pathsep.join(filter(None, [__mp__.find_dep_include("openblas"), env.get("CPATH")]))
+    env["CMAKE_PREFIX_PATH"] = __mp__.find_dep_root("openblas")
+    env["PKG_CONFIG"] = "/disabled"
+    __mp__.run(sys.executable, "-m", "build", "-w", "--no-isolation", "-o", ".",
+               "-Csetup-args=-Dblas=openblas", "-Csetup-args=-Dlapack=openblas",
+               # Fail instead of falling back to numpy's unoptimized routines.
+               "-Csetup-args=-Dallow-noblas=false", env=env)
+
+    wheel_location = glob.glob("numpy-*.whl")[0]
+
+    wheel_files = []
+    with TemporaryDirectory() as tmpdir:
+        with WheelFile(wheel_location) as wf:
+            for filename in wf.namelist():
+                wheel_files.append(filename)
+                wf.extract(filename, tmpdir)
+
+        ext_suffix = sysconfig.get_config_var("EXT_SUFFIX")
+        __mp__.rename_symbols_in_file(os.path.join(tmpdir, f"numpy/_core/_multiarray_tests{ext_suffix}"),
+                                      "_np_multiarray_tests")
+        __mp__.analyze_and_rename_library_symbols(tmpdir, "numpy",
+                                                  protected_symbol_patterns=["_?PyUFunc.+", "_?npy_.+", "_?PyArray.+", "_?Py.+_Type"],
+                                                  exclude_libraries=["_multiarray_umath*"])
+
+        with WheelFile(wheel_location, 'w') as wf:
+            for filename in wheel_files:
+                wf.write(os.path.join(tmpdir, filename), filename)
+    wheel_name = os.path.basename(wheel_location)
+    shutil.copy(wheel_location, os.path.join(wheel_directory, wheel_name))
+    return os.path.join(wheel_directory, wheel_name)
