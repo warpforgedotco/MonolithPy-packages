@@ -1,0 +1,17 @@
+{
+  "version": "0.2.5",
+  "build_tools": [
+    "cmake",
+    "ninja"
+  ],
+  "files": [
+    "build.py"
+  ],
+  "sources": [
+    {
+      "version": "0.2.5",
+      "link": "https://github.com/yaml/libyaml/archive/refs/tags/0.2.5.tar.gz"
+    }
+  ],
+  "build_script": "build.py"
+}

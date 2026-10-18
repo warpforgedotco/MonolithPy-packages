@@ -1,0 +1,25 @@
+{
+  "tests": [
+    "test.py"
+  ],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [],
+      "dependencies": [
+        "yaml"
+      ],
+      "files": [
+        "build.py"
+      ],
+      "build_requires": [
+        "setuptools",
+        "Cython>=3.0",
+        "build"
+      ],
+      "build_script": "build.py"
+    }
+  ]
+}
