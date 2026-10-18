@@ -36,6 +36,8 @@ def _build_sheenbidi(work_dir, env):
         "-G", "Ninja",
         "-DCMAKE_BUILD_TYPE=Release",
         "-DCMAKE_INSTALL_PREFIX=" + install_dir,
+        # GNUInstallDirs picks lib64 on RHEL-family systems (manylinux).
+        "-DCMAKE_INSTALL_LIBDIR=lib",
         "-DBUILD_SHARED_LIBS=OFF",
         "-DSB_CONFIG_UNITY=ON",
         "-DBUILD_TESTING=OFF",
@@ -100,7 +102,8 @@ def run(wheel_directory):
         "--force-fallback-for=freetype2,harfbuzz,sheenbidi",
         "--wrap-mode=nodownload",
         "--prefix=" + install_dir,
-        # Debian's meson defaults to lib/<multiarch>; keep it where we look.
+        # Debian's meson defaults to lib/<multiarch> and RHEL's to lib64; keep
+        # it where we look.
         "--libdir=lib",
         cwd=raqm_src, env=env,
     )
