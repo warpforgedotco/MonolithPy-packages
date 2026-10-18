@@ -100,6 +100,8 @@ def run(wheel_directory):
         "--force-fallback-for=freetype2,harfbuzz,sheenbidi",
         "--wrap-mode=nodownload",
         "--prefix=" + install_dir,
+        # Debian's meson defaults to lib/<multiarch>; keep it where we look.
+        "--libdir=lib",
         cwd=raqm_src, env=env,
     )
     __mp__.meson("compile", "-C", build_dir, cwd=raqm_src, env=env)
