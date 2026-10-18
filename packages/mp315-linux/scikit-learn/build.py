@@ -13,6 +13,19 @@ def run(wheel_directory):
     __mp__.run_with_output("patch", "-p1", "-ui",
                            os.path.join(os.path.dirname(__file__), "scikit_learn-static-patch.patch"))
 
+    # The interpreter can't link an OpenMP runtime statically, and scikit-learn
+    # uses OpenMP whenever the compiler supports it, which kpython's clang and
+    # gcc do; the relink then failed on __kmpc_*/GOMP_* symbols. Build it
+    # without OpenMP, as on a compiler that lacks it.
+    with open(os.path.join("sklearn", "meson.build"), "r") as f:
+        meson_build = f.read()
+    openmp_line = "openmp_dep = dependency('OpenMP', language: 'c', required: false)"
+    if openmp_line not in meson_build:
+        raise RuntimeError("sklearn/meson.build no longer looks up OpenMP this way; update this recipe")
+    meson_build = meson_build.replace(openmp_line, "openmp_dep = dependency('', required: false)")
+    with open(os.path.join("sklearn", "meson.build"), "w") as f:
+        f.write(meson_build)
+
     with open("pyproject.toml", "r") as f:
         pyproject = f.read()
     pyproject = pyproject.replace("meson-python>=0.17.1,<0.19.0", "meson-python>=0.17.1")
