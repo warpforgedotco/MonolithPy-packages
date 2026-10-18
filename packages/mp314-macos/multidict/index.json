@@ -1,0 +1,22 @@
+{
+  "tests": [
+    "test.py"
+  ],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [],
+      "dependencies": [],
+      "files": [
+        "build.py"
+      ],
+      "build_requires": [
+        "setuptools>=77.0",
+        "build"
+      ],
+      "build_script": "build.py"
+    }
+  ]
+}

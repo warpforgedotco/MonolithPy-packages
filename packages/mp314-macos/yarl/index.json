@@ -1,0 +1,29 @@
+{
+  "tests": [
+    "test.py"
+  ],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [],
+      "dependencies": [],
+      "files": [
+        "build.py"
+      ],
+      "build_requires": [
+        "setuptools>=47",
+        "expandvars",
+        "Cython",
+        "build"
+      ],
+      "build_script": "build.py",
+      "dist_requires": [
+        "idna>=2.0",
+        "multidict>=4.0",
+        "propcache>=0.2.1"
+      ]
+    }
+  ]
+}

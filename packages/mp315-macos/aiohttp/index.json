@@ -1,0 +1,32 @@
+{
+  "tests": [
+    "test.py"
+  ],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [],
+      "dependencies": [],
+      "files": [
+        "build.py"
+      ],
+      "build_requires": [
+        "setuptools>=77.0",
+        "pkgconfig",
+        "build"
+      ],
+      "build_script": "build.py",
+      "dist_requires": [
+        "aiohappyeyeballs>=2.5.0",
+        "aiosignal>=1.4.0",
+        "attrs>=17.3.0",
+        "frozenlist>=1.1.1",
+        "multidict<8.0,>=4.5",
+        "propcache>=0.2.0",
+        "yarl<2.0,>=1.25.1"
+      ]
+    }
+  ]
+}
