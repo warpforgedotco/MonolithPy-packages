@@ -35,6 +35,9 @@ def run(wheel_directory):
     env["CPATH"] = os.pathsep.join(filter(None, [__mp__.find_dep_include("openblas"), env.get("CPATH")]))
     env["CMAKE_PREFIX_PATH"] = __mp__.find_dep_root("openblas")
     env["PKG_CONFIG"] = "/disabled"
+    # The static OpenBLAS needs libm, and libpthread, which glibc before
+    # 2.34 keeps out of libc; meson's OpenBLAS check links only -lopenblas.
+    env["LDFLAGS"] = " ".join(filter(None, [env.get("LDFLAGS"), "-pthread -lm"]))
     __mp__.run(sys.executable, "-m", "build", "-w", "--no-isolation", "-o", ".",
                "-Csetup-args=-Dblas=openblas", "-Csetup-args=-Dlapack=openblas",
                # Fail instead of falling back to numpy's unoptimized routines.

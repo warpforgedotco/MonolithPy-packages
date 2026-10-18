@@ -26,6 +26,9 @@ def run(wheel_directory):
     os.environ["CMAKE_PREFIX_PATH"] = __mp__.find_dep_root("openblas")
     os.environ["FFLAGS"] = "-static-libgcc"
     os.environ["PKG_CONFIG"] = "/disabled"
+    # The static OpenBLAS needs libm, and libpthread, which glibc before
+    # 2.34 keeps out of libc; meson's OpenBLAS check links only -lopenblas.
+    os.environ["LDFLAGS"] = " ".join(filter(None, [os.environ.get("LDFLAGS"), "-pthread -lm"]))
 
     job_args = []
     if "MP_JOBS" in os.environ:
