@@ -30,7 +30,7 @@
     },
     {
       "metadata": {
-        "Version": "*"
+        "Version": "2.5.3"
       },
       "build_tools": [
         "cmake",
@@ -45,6 +45,31 @@
       "files": [
         "2.5.3/build.py",
         "2.5.3/numpy-static-patch.patch"
+      ],
+      "build_requires": [
+        "meson-python>=0.18.0",
+        "Cython>=3.0.6",
+        "build"
+      ],
+      "build_script": "build.py"
+    },
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [
+        "cmake",
+        "ninja",
+        "gcc",
+        "clang"
+      ],
+      "dependencies": [
+        "openblas",
+        "gcc-rt"
+      ],
+      "files": [
+        "2.5.4/build.py",
+        "2.5.4/numpy-static-patch.patch"
       ],
       "build_requires": [
         "meson-python>=0.18.0",
