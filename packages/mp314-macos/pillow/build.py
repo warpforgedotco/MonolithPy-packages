@@ -29,7 +29,7 @@ def run(wheel_directory):
                            "-Craqm=enable",
                            "-Clcms=disable", "-Cwebp=disable",
                            "-Cjpeg2000=disable", "-Cimagequant=disable",
-                           "-Cxcb=disable", env=env)
+                           "-Cxcb=disable", "-Cavif=disable", env=env)
 
     wheel_location = glob.glob("pillow-*.whl")[0]
     wheel_name = os.path.basename(wheel_location)
