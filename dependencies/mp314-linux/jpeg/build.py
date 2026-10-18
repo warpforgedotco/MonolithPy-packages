@@ -19,7 +19,7 @@ def run(wheel_directory):
 
     __mp__.run_build_tool_exe("cmake", "cmake", "-G", "Ninja",
                               "-DCMAKE_BUILD_TYPE=Release", "-DENABLE_SHARED=FALSE",
-                              "-DCMAKE_INSTALL_PREFIX=" + install_dir, src_dir)
+                              "-DCMAKE_INSTALL_PREFIX=" + install_dir, "-DCMAKE_INSTALL_LIBDIR=lib", src_dir)
     __mp__.run_build_tool_exe("ninja", "ninja", "install")
 
     result_wheel = os.path.join(wheel_directory, __mp__.get_wheel_name("mpy_dep_jpeg", "3.1.0"))

@@ -19,7 +19,7 @@ def run(wheel_directory):
     env = os.environ.copy()
     env["PATH"] = (os.path.dirname(__mp__.find_build_tool_exe("cmake", "cmake")) + os.pathsep + os.environ["PATH"])
     __mp__.run_build_tool_exe("cmake", "cmake",
-                              "-DCMAKE_INSTALL_PREFIX=" + install_dir, "-DBUILD_STATIC_LIBS=ON", "-DBUILD_SHARED_LIBS=OFF",
+                              "-DCMAKE_INSTALL_PREFIX=" + install_dir, "-DCMAKE_INSTALL_LIBDIR=lib", "-DBUILD_STATIC_LIBS=ON", "-DBUILD_SHARED_LIBS=OFF",
                               "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
                               # LAPACK from OpenBLAS's C translation: no Fortran compiler
                               # at build time and no Fortran runtime to link.
