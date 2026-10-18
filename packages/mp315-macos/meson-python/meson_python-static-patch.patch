@@ -24,8 +24,8 @@ index cc25284..d4c68b9 100644
              # implementation and ABI tags.
              return mesonpy._tags.Tag('py3', 'none', None)
 -        return mesonpy._tags.Tag(None, self._stable_abi, None)
-+        import packaging
-+        return list(packaging.tags.generic_tags())[0]
++        import __mp__, packaging.tags
++        return packaging.tags.Tag(*__mp__.get_wheel_tag().split('-'))
  
      @property
      def name(self) -> str:
