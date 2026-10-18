@@ -1,0 +1,37 @@
+{
+  "tests": [
+    "test.py"
+  ],
+  "scripts": [
+    {
+      "metadata": {
+        "Version": "*"
+      },
+      "build_tools": [
+        "cmake",
+        "ninja"
+      ],
+      "dependencies": [
+        "openblas",
+        "gcc-rt"
+      ],
+      "files": [
+        "1.18.1/build.py",
+        "1.18.1/scipy-static-patch.patch"
+      ],
+      "build_requires": [
+        "setuptools",
+        "meson-python>=0.15.0,<0.22.0",
+        "pyproject-metadata",
+        "Cython>=3.2.0,<3.3.0",
+        "pybind11==3.0.4",
+        "pythran>=0.18.1,<0.20.0",
+        "build"
+      ],
+      "dist_requires": [
+        "numpy>=2.0.0"
+      ],
+      "build_script": "build.py"
+    }
+  ]
+}

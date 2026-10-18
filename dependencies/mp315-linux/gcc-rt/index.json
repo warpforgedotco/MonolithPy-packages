@@ -1,0 +1,15 @@
+{
+  "version": "15",
+  "build_tools": [],
+  "dependencies": [],
+  "files": [
+    "build.py"
+  ],
+  "sources": [
+    {
+      "version": "15",
+      "link": "https://pip-mpy.ohrtech.net/dummy/empty/mpy_dep_gcc_rt-14.zip"
+    }
+  ],
+  "build_script": "build.py"
+}
